@@ -1,18 +1,26 @@
 #!/usr/bin/env ruby
 class Game_of_life
   def initialize
-    @background = File.open("background.txt").map { |line| line.delete("\n").each_char.to_a }
+    # @background = File.open("background.txt").map { |line| line.delete("\n").each_char.to_a }
+    @tmp = Array.new(100){Array.new(100)}
+    @background = Array.new(100){Array.new(100)}
     @row = @background.length - 1
     @col = @background.first.length - 1
+    randomize
   end
 
   def next_generation
-    @tmp = Array.new(5){Array.new(6)}
     @background.each_with_index do |line,i| 
       line.each_index { |j| analise_of_life(i, j) }
     end
     puts 
     @background = @tmp
+  end
+
+  def randomize
+    @background.map do |line| 
+     line.map! {|elem| elem = rand(0..1)}
+    end
   end
 
   def analise_of_life(i, j)
@@ -61,7 +69,7 @@ end
 a = Game_of_life.new
 loop do 
   a.display
-  sleep(0.5)   
+  sleep(0.05)   
   a.next_generation
 end
 
