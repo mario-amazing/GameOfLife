@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+
 class Game_of_life
   def initialize
     # @background = File.open("background.txt").map { |line| line.delete("\n").each_char.to_a }
@@ -10,7 +11,7 @@ class Game_of_life
   end
 
   def next_generation
-    @background.each_with_index do |line,i| 
+    @background.each_with_index do |line,i|
       line.each_index { |j| analise_of_life(i, j) }
     end
     puts 
@@ -18,8 +19,8 @@ class Game_of_life
   end
 
   def randomize
-    @background.map do |line| 
-     line.map! {|elem| elem = rand(0..1)}
+    @background.map do |line|
+      line.map! {|elem| elem = rand(0..1)}
     end
   end
 
@@ -28,8 +29,8 @@ class Game_of_life
     neighbors = 0
     neighbors = [ [i-1, j-1], [i-1, j], [i-1, j+1],
                   [i, j-1],             [i, j+1],
-                  [i+1, j-1], [i+1, j], [i+1, j+1]] 
-    neighbors.each { |indexes| live_neighbors += get_live_neighbors(indexes) } 
+                  [i+1, j-1], [i+1, j], [i+1, j+1]]
+    neighbors.each { |indexes| live_neighbors += get_live_neighbors(indexes) }
     alive_cell(i, j, live_neighbors)
   end
 
@@ -39,7 +40,7 @@ class Game_of_life
     i = 0 if i > @row
     j = @col if j < 0
     j = 0 if j > @col
-    @background[i][j].to_i    
+    @background[i][j].to_i
   end
 
   def alive_cell(i, j, live_neighbors)
@@ -67,10 +68,8 @@ class Game_of_life
 end
 
 a = Game_of_life.new
-loop do 
+loop do
   a.display
-  sleep(0.05)   
+  sleep(0.05)
   a.next_generation
 end
-
-
