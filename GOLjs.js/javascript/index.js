@@ -37,7 +37,11 @@ $( document ).ready(function() {
   $('#random-field').on("click", randomField);
   $('#clear-field').on("click", clearField);
   $('#step').on("click", function() {
-    return nextGen();
+    $.each(nextGen(), function(row_index) {
+      $.each(this, function(col_index) {
+        $(`div.field-col[data-row=${row_index}][data-col=${col_index}]`).attr('data-state', this)
+      })
+    })
   });
 });
 
