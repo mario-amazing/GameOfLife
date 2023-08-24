@@ -30,21 +30,6 @@ function getField() {
   }));
 }
 
-$( document ).ready(function() {
-  generateField();
-  randomField();
-  $('#generate-field').on("click", generateField);
-  $('#random-field').on("click", randomField);
-  $('#clear-field').on("click", clearField);
-  $('#step').on("click", function() {
-    $.each(nextGen(), function(row_index) {
-      $.each(this, function(col_index) {
-        $(`div.field-col[data-row=${row_index}][data-col=${col_index}]`).attr('data-state', this)
-      })
-    })
-  });
-});
-
 function nextGen() {
   var field = getField();
   var fieldRowsCount = field.length
@@ -87,3 +72,27 @@ function nextGen() {
     } else { return liveNeighbors == 3 ? 'true' : 'false' }
   }
 }
+function renderNextGen() {
+  $.each(nextGen(), function(row_index) {
+    $.each(this, function(col_index) {
+      $(`div.field-col[data-row=${row_index}][data-col=${col_index}]`).attr('data-state', this)
+    })
+  })
+}
+const timer = ms => new Promise(res => setTimeout(res, ms))
+async function startGenerations () {
+  for (var i = 0; i < 1000; i++) {
+    renderNextGen();
+    await timer(100);
+  }
+}
+
+$( document ).ready(function() {
+  generateField();
+  randomField();
+  $('#generate-field').on("click", generateField);
+  $('#random-field').on("click", randomField);
+  $('#clear-field').on("click", clearField);
+  $('#step').on("click", renderNextGen);
+  $('#start').on("click", startGenerations);
+});
