@@ -89,10 +89,14 @@ input {
   border: solid;
   width: $pixel-size;
   height: $pixel-size;
-  margin: $pixel-size/4;
+  margin: calc($pixel-size / 4);
 
   &[data-state="true"]{
     background-color: green;
     // border: solid;
   }
+}
+
+#start {
+  margin-left: 5px;
 }

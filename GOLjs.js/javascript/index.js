@@ -55,12 +55,12 @@ function nextGen() {
     if (row_index < 0) {
       row_index = fieldRowsCount-1
     } else if (row_index >= fieldRowsCount) {
-      row_index = 1
+      row_index = 0
     }
     if (col_index < 0) {
       col_index = fieldColsCount-1
     } else if (col_index >= fieldColsCount) {
-      col_index = 1
+      col_index = 0
     }
 
     return field[row_index][col_index] == 'true'
@@ -79,9 +79,12 @@ function renderNextGen() {
     })
   })
 }
+
+let autoGeneration = false;
 const timer = ms => new Promise(res => setTimeout(res, ms))
-async function startGenerations () {
-  for (var i = 0; i < 1000; i++) {
+async function startGenerations() {
+  autoGeneration = !autoGeneration;
+  while(autoGeneration) {
     renderNextGen();
     await timer(100);
   }
@@ -89,10 +92,14 @@ async function startGenerations () {
 
 $( document ).ready(function() {
   generateField();
-  randomField();
   $('#generate-field').on("click", generateField);
   $('#random-field').on("click", randomField);
   $('#clear-field').on("click", clearField);
   $('#step').on("click", renderNextGen);
-  $('#start').on("click", startGenerations);
+  $('#start').on("click", function(){
+    $('#start').toggleClass('success')
+    $('#start').toggleClass('warn')
+    $("#start").text(($("#start").text() == "Start") ? "Stop" : "Start");
+    startGenerations();
+  });
 });
