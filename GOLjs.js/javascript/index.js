@@ -1,5 +1,5 @@
 function randomBoolean() {
-  return Math.random() < 0.5;
+  return Math.round(Math.random());
 }
 function generateField() {
   var height = parseInt($('#field-height').val());
@@ -8,10 +8,10 @@ function generateField() {
   for (var i = 0; i < height; i++) {
     var row = $('#field-grid').append(`<div class="field-row" data-row=${i}></div>`);
     for (var j = 0; j < width; j++) {
-      $(`div.field-row[data-row=${i}]`).append(`<div class="field-col" data-row=${i} data-col=${j} data-state=false></div>`)
+      $(`div.field-row[data-row=${i}]`).append(`<div class="field-col" data-row=${i} data-col=${j} data-state=0></div>`)
     }
   }
-  $('.field-col').on('click', function() { $(this).attr('data-state', $(this).attr('data-state') != 'true'); })
+  $('.field-col').on('click', function() { $(this).attr('data-state', 1 - parseInt($(this).attr('data-state'))); })
 }
 
 function randomField() {
@@ -19,7 +19,7 @@ function randomField() {
 }
 
 function clearField() {
-  $('.field-col').each(function() { $(this).attr('data-state', false); })
+  $('.field-col').each(function() { $(this).attr('data-state', 0); })
 }
 
 function getField() {
@@ -63,13 +63,13 @@ function nextGen() {
       col_index = 0
     }
 
-    return field[row_index][col_index] == 'true'
+    return parseInt(field[row_index][col_index])
   }
 
   function aliveCell(row_index, col_index, liveNeighbors) {
-    if (field[row_index][col_index] == 'true') {
-      return liveNeighbors >= 2 && liveNeighbors <= 3 ? 'true' : 'false'
-    } else { return liveNeighbors == 3 ? 'true' : 'false' }
+    if (field[row_index][col_index] == 1) {
+      return liveNeighbors >= 2 && liveNeighbors <= 3 ? 1 : 0
+    } else { return liveNeighbors == 3 ? 1 : 0 }
   }
 }
 function renderNextGen() {

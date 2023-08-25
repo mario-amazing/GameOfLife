@@ -82,7 +82,7 @@ input {
   height: 13px;
   margin: 3.25px;
 }
-.field-col[data-state=true] {
+.field-col[data-state="1"] {
   background-color: green;
 }
 

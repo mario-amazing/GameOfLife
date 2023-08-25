@@ -91,7 +91,7 @@ input {
   height: $pixel-size;
   margin: calc($pixel-size / 4);
 
-  &[data-state="true"]{
+  &[data-state='1']{
     background-color: green;
     // border: solid;
   }
